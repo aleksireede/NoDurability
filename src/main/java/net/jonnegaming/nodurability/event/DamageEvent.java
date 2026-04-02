@@ -1,6 +1,6 @@
-package me.arian.nodurability.event;
+package net.jonnegaming.nodurability.event;
 
-import me.arian.nodurability.NoDurability;
+import net.jonnegaming.nodurability.NoDurability;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

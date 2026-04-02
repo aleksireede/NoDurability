@@ -1,8 +1,8 @@
-package me.arian.nodurability;
+package net.jonnegaming.nodurability;
 
-import me.arian.nodurability.command.NoDurabilityCommand;
-import me.arian.nodurability.event.CombustEvent;
-import me.arian.nodurability.event.DamageEvent;
+import net.jonnegaming.nodurability.command.NoDurabilityCommand;
+import net.jonnegaming.nodurability.event.CombustEvent;
+import net.jonnegaming.nodurability.event.DamageEvent;
 import org.bukkit.Material;
 import org.bukkit.permissions.Permission;
 import org.bukkit.plugin.PluginManager;
@@ -50,7 +50,7 @@ public final class NoDurability extends JavaPlugin {
         pm.registerEvents(new DamageEvent(), this);
         pm.registerEvents(new CombustEvent(), this);
 
-        if(pm.getPlugin("PlaceholderAPI") != null)
+        if (pm.getPlugin("PlaceholderAPI") != null)
             new NoDurabilityPAPIExtension(this);
 
     }

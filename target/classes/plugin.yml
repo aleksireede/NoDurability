@@ -1,9 +1,9 @@
-name: ${project.artifactId}
-version: ${project.version}
+name: NoDurability
+version: 1.0
 main: net.jonnegaming.nodurability.NoDurability
 load: POSTWORLD
 author: "Aleksi220"
-api-version: '${apiVersion}'
+api-version: '1.21'
 softdepend: [PlaceholderAPI]
 commands:
   removedurability:

@@ -1,4 +1,4 @@
-package me.arian.nodurability;
+package net.jonnegaming.nodurability;
 
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.OfflinePlayer;
@@ -16,7 +16,7 @@ public final class NoDurabilityPAPIExtension extends PlaceholderExpansion {
 
     @Override
     public @NotNull String getAuthor() {
-        return "Arian01";
+        return "Aleksi220";
     }
 
     @Override
@@ -37,12 +37,13 @@ public final class NoDurabilityPAPIExtension extends PlaceholderExpansion {
     @Override
     public @Nullable String onRequest(OfflinePlayer player, @NotNull String params) {
         if (params.equalsIgnoreCase("durability")) {
-            if (player != null && player.getPlayer().getInventory().getItemInMainHand().getItemMeta() instanceof Damageable) {
-                Damageable damageable = (Damageable) player.getPlayer().getInventory().getItemInMainHand().getItemMeta();
+            if (player != null && player.getPlayer().getInventory().getItemInMainHand().getItemMeta() instanceof Damageable damageable) {
                 return String.valueOf(damageable.getDamage());
             } else if (player != null && !(player.getPlayer().getInventory().getItemInMainHand().getItemMeta() instanceof Damageable)) {
                 return plugin.getConfig().getString("lang.papi.no-durability");
-            } else { return null; }
+            } else {
+                return null;
+            }
         }
 
         return null;
