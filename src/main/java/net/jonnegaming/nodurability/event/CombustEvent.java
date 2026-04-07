@@ -15,7 +15,7 @@ public final class CombustEvent implements Listener {
      */
     @EventHandler
     public void onCombust(EntityCombustEvent event) {
-        if (!NoDurability.get().getConfig().getBoolean("combust-items"))
+        if (NoDurability.get().shouldPreventItemCombustion())
             event.setCancelled(true);
     }
 }

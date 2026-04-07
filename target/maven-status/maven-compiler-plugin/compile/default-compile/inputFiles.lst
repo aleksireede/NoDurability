@@ -1,5 +1,6 @@
 /home/aleksi/Asiakirjat/Projects/NoDurability/src/main/java/net/jonnegaming/nodurability/NoDurability.java
 /home/aleksi/Asiakirjat/Projects/NoDurability/src/main/java/net/jonnegaming/nodurability/NoDurabilityPAPIExtension.java
-/home/aleksi/Asiakirjat/Projects/NoDurability/src/main/java/net/jonnegaming/nodurability/command/NoDurabilityCommand.java
+/home/aleksi/Asiakirjat/Projects/NoDurability/src/main/java/net/jonnegaming/nodurability/event/AutoRepairEvent.java
 /home/aleksi/Asiakirjat/Projects/NoDurability/src/main/java/net/jonnegaming/nodurability/event/CombustEvent.java
 /home/aleksi/Asiakirjat/Projects/NoDurability/src/main/java/net/jonnegaming/nodurability/event/DamageEvent.java
+/home/aleksi/Asiakirjat/Projects/NoDurability/src/main/java/net/jonnegaming/nodurability/util/ItemDurabilityUtil.java

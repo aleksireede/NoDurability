@@ -1,5 +1,6 @@
+net/jonnegaming/nodurability/util/ItemDurabilityUtil.class
 net/jonnegaming/nodurability/event/DamageEvent.class
+net/jonnegaming/nodurability/event/AutoRepairEvent.class
 net/jonnegaming/nodurability/NoDurabilityPAPIExtension.class
 net/jonnegaming/nodurability/NoDurability.class
 net/jonnegaming/nodurability/event/CombustEvent.class
-net/jonnegaming/nodurability/command/NoDurabilityCommand.class

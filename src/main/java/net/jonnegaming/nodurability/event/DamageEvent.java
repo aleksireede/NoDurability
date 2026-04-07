@@ -1,7 +1,6 @@
 package net.jonnegaming.nodurability.event;
 
-import net.jonnegaming.nodurability.NoDurability;
-import org.bukkit.Material;
+import net.jonnegaming.nodurability.util.ItemDurabilityUtil;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerItemDamageEvent;
@@ -16,11 +15,10 @@ public final class DamageEvent implements Listener {
      */
     @EventHandler
     public void onPlayerItemDamage(PlayerItemDamageEvent event) {
-        Material itemMaterial = event.getItem().getType();
+        if (ItemDurabilityUtil.canUse(event.getPlayer())) return;
 
-        if (NoDurability.get().getExcludedMaterials().contains(itemMaterial.name())) return;
-        if (event.getPlayer().hasPermission("nodurability.exclude." + itemMaterial.name().toLowerCase())) return;
-
+        event.setDamage(0);
         event.setCancelled(true);
+        ItemDurabilityUtil.scheduleInventoryRepair(event.getPlayer());
     }
 }

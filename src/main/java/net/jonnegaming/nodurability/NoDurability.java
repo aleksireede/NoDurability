@@ -1,17 +1,12 @@
 package net.jonnegaming.nodurability;
 
-import net.jonnegaming.nodurability.command.NoDurabilityCommand;
+import net.jonnegaming.nodurability.event.AutoRepairEvent;
 import net.jonnegaming.nodurability.event.CombustEvent;
 import net.jonnegaming.nodurability.event.DamageEvent;
-import org.bukkit.Material;
-import org.bukkit.permissions.Permission;
+import net.jonnegaming.nodurability.util.ItemDurabilityUtil;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
-
-import java.util.List;
-import java.util.Objects;
-
-import static org.bukkit.Bukkit.getPluginManager;
 
 /**
  * NoDurability - Removes durability from the game
@@ -21,7 +16,6 @@ import static org.bukkit.Bukkit.getPluginManager;
  */
 public final class NoDurability extends JavaPlugin {
 
-    private List<String> excludedMaterials;
     private final PluginManager pm = this.getServer().getPluginManager();
     private static NoDurability instance;
 
@@ -32,27 +26,32 @@ public final class NoDurability extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        this.saveDefaultConfig();
-
-        this.initMaterialPermission();
-
-        this.excludedMaterials = this.getConfig().getStringList("exclude");
-        this.excludedMaterials.forEach(string -> {
-            if (Material.matchMaterial(string) == null) {
-                this.getLogger().warning("Invalid material: " + string);
-            }
-        });
-        this.getLogger().info("Loaded " + excludedMaterials.size() + " Materials");
-
-        Objects.requireNonNull(this.getCommand("removedurability")).setExecutor(new NoDurabilityCommand());
-        Objects.requireNonNull(this.getCommand("removedurability")).setTabCompleter(new NoDurabilityCommand());
+        this.initConfig();
 
         pm.registerEvents(new DamageEvent(), this);
+        pm.registerEvents(new AutoRepairEvent(), this);
         pm.registerEvents(new CombustEvent(), this);
+
+        final long playerRepairIntervalTicks = Math.max(1L, this.getConfig().getLong("player-auto-repair-interval-ticks", 1L));
+        getServer().getScheduler().runTaskTimer(this, () -> {
+            for (Player player : getServer().getOnlinePlayers()) {
+                ItemDurabilityUtil.repairInventory(player);
+            }
+        }, 0L, playerRepairIntervalTicks);
+
+        final long hopperRepairIntervalTicks = Math.max(1L, this.getConfig().getLong("hopper-auto-repair-interval-ticks", 20L));
+        getServer().getScheduler().runTaskTimer(this, ItemDurabilityUtil::repairLoadedHoppers, 0L, hopperRepairIntervalTicks);
 
         if (pm.getPlugin("PlaceholderAPI") != null)
             new NoDurabilityPAPIExtension(this);
 
+    }
+
+    private void initConfig() {
+        this.saveDefaultConfig();
+        this.getConfig().options().copyDefaults(true);
+        this.saveConfig();
+        this.reloadConfig();
     }
 
     /**
@@ -68,22 +67,11 @@ public final class NoDurability extends JavaPlugin {
         }
     }
 
-    /**
-     * Gets a List of all excluded {@link Material}s.
-     *
-     * @return excludedMaterials
-     */
-    public List<String> getExcludedMaterials() {
-        return excludedMaterials;
-    }
-
-    private void initMaterialPermission() {
-        for (Material material : Material.values()) {
-            String perm = "nodurability.exclude." + material.name().toLowerCase();
-
-            if (getPluginManager().getPermission(perm) == null) {
-                getServer().getPluginManager().addPermission(new Permission(perm));
-            }
+    public boolean shouldPreventItemCombustion() {
+        if (this.getConfig().contains("prevent-item-combustion")) {
+            return this.getConfig().getBoolean("prevent-item-combustion");
         }
+
+        return !this.getConfig().getBoolean("combust-items", true);
     }
 }

@@ -1,9 +1,14 @@
-# You can exclude Materials from not having durability.
-exclude:
-  # - DIAMOND_SWORD
+# Prevent dropped items from burning in fire or lava.
+prevent-item-combustion: false
 
-# Prevent that items combust.
-combust-items: true
+# Legacy option kept for backwards compatibility.
+# combust-items: true
+
+# How often online player inventories are repaired automatically.
+player-auto-repair-interval-ticks: 1
+
+# How often loaded hopper inventories are scanned and repaired automatically.
+hopper-auto-repair-interval-ticks: 20
 
 # You can change the messages to whatever you want and support different languages.
 lang:
