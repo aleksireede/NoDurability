@@ -20,7 +20,11 @@ public final class ItemDurabilityUtil {
     }
 
     public static boolean canUse(@NotNull Player player) {
-        return !player.hasPermission(USE_PERMISSION);
+        return player.hasPermission(USE_PERMISSION);
+    }
+
+    public static boolean shouldApplyUnbreakable(@NotNull ItemStack item) {
+        return item.getType().getMaxStackSize() == 1;
     }
 
     public static boolean repairItem(ItemStack item) {
@@ -39,8 +43,11 @@ public final class ItemDurabilityUtil {
             changed = true;
         }
 
-        if (!meta.isUnbreakable()) {
+        if (shouldApplyUnbreakable(item) && !meta.isUnbreakable()) {
             meta.setUnbreakable(true);
+            changed = true;
+        } else if (!shouldApplyUnbreakable(item) && meta.isUnbreakable()) {
+            meta.setUnbreakable(false);
             changed = true;
         }
 
