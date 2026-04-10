@@ -6,6 +6,8 @@ import org.bukkit.inventory.meta.Damageable;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Objects;
+
 public final class NoDurabilityPAPIExtension extends PlaceholderExpansion {
 
     private final NoDurability plugin;
@@ -37,7 +39,7 @@ public final class NoDurabilityPAPIExtension extends PlaceholderExpansion {
     @Override
     public @Nullable String onRequest(OfflinePlayer player, @NotNull String params) {
         if (params.equalsIgnoreCase("durability")) {
-            if (player != null && player.getPlayer().getInventory().getItemInMainHand().getItemMeta() instanceof Damageable damageable) {
+            if (player != null && Objects.requireNonNull(player.getPlayer()).getInventory().getItemInMainHand().getItemMeta() instanceof Damageable damageable) {
                 return String.valueOf(damageable.getDamage());
             } else if (player != null && !(player.getPlayer().getInventory().getItemInMainHand().getItemMeta() instanceof Damageable)) {
                 return plugin.getConfig().getString("lang.papi.no-durability");

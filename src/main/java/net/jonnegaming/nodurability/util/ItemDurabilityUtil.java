@@ -1,6 +1,7 @@
 package net.jonnegaming.nodurability.util;
 
 import net.jonnegaming.nodurability.NoDurability;
+import org.bukkit.Material;
 import org.bukkit.Chunk;
 import org.bukkit.World;
 import org.bukkit.block.BlockState;
@@ -24,7 +25,31 @@ public final class ItemDurabilityUtil {
     }
 
     public static boolean shouldApplyUnbreakable(@NotNull ItemStack item) {
-        return item.getType().getMaxStackSize() == 1;
+        final Material type = item.getType();
+        final String name = type.name();
+
+        return name.endsWith("_SWORD")
+                || name.endsWith("_AXE")
+                || name.endsWith("_HOE")
+                || name.endsWith("_PICKAXE")
+                || name.endsWith("_SHOVEL")
+                || name.endsWith("_HELMET")
+                || name.endsWith("_CHESTPLATE")
+                || name.endsWith("_LEGGINGS")
+                || name.endsWith("_BOOTS")
+                || type == Material.BOW
+                || type == Material.CROSSBOW
+                || type == Material.TRIDENT
+                || type == Material.SHEARS
+                || type == Material.SHIELD
+                || type == Material.FLINT_AND_STEEL
+                || type == Material.CARROT_ON_A_STICK
+                || type == Material.WARPED_FUNGUS_ON_A_STICK
+                || type == Material.FISHING_ROD
+                || type == Material.BRUSH
+                || type == Material.ELYTRA
+                || name.equals("SPARKLER")
+                || name.equals("GLOW_STICK");
     }
 
     public static boolean repairItem(ItemStack item) {
@@ -43,6 +68,8 @@ public final class ItemDurabilityUtil {
             changed = true;
         }
 
+        // First statement will check if item is a type that should have unbreakable tag and does not have it already
+        // Second will check items that should not have it but do and remove the tag.
         if (shouldApplyUnbreakable(item) && !meta.isUnbreakable()) {
             meta.setUnbreakable(true);
             changed = true;
