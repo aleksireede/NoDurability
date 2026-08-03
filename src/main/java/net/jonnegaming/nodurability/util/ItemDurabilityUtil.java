@@ -1,8 +1,8 @@
 package net.jonnegaming.nodurability.util;
 
 import net.jonnegaming.nodurability.NoDurability;
-import org.bukkit.Material;
 import org.bukkit.Chunk;
+import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.Hopper;
@@ -13,9 +13,25 @@ import org.bukkit.inventory.meta.Damageable;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Set;
+
 public final class ItemDurabilityUtil {
 
     public static final String USE_PERMISSION = "nodurability.use";
+
+    private static final Set<Material> UNBREAKABLE_ITEMS = Set.of(
+        Material.BOW,
+        Material.CROSSBOW,
+        Material.TRIDENT,
+        Material.SHEARS,
+        Material.SHIELD,
+        Material.FLINT_AND_STEEL,
+        Material.CARROT_ON_A_STICK,
+        Material.WARPED_FUNGUS_ON_A_STICK,
+        Material.FISHING_ROD,
+        Material.BRUSH,
+        Material.ELYTRA
+    );
 
     private ItemDurabilityUtil() {
     }
@@ -25,31 +41,19 @@ public final class ItemDurabilityUtil {
     }
 
     public static boolean shouldApplyUnbreakable(@NotNull ItemStack item) {
-        final Material type = item.getType();
-        final String name = type.name();
+        Material type = item.getType();
+        String name = type.name();
 
         return name.endsWith("_SWORD")
-                || name.endsWith("_AXE")
-                || name.endsWith("_HOE")
-                || name.endsWith("_PICKAXE")
-                || name.endsWith("_SHOVEL")
-                || name.endsWith("_HELMET")
-                || name.endsWith("_CHESTPLATE")
-                || name.endsWith("_LEGGINGS")
-                || name.endsWith("_BOOTS")
-                || type == Material.BOW
-                || type == Material.CROSSBOW
-                || type == Material.TRIDENT
-                || type == Material.SHEARS
-                || type == Material.SHIELD
-                || type == Material.FLINT_AND_STEEL
-                || type == Material.CARROT_ON_A_STICK
-                || type == Material.WARPED_FUNGUS_ON_A_STICK
-                || type == Material.FISHING_ROD
-                || type == Material.BRUSH
-                || type == Material.ELYTRA
-                || name.equals("SPARKLER")
-                || name.equals("GLOW_STICK");
+            || name.endsWith("_AXE")
+            || name.endsWith("_HOE")
+            || name.endsWith("_PICKAXE")
+            || name.endsWith("_SHOVEL")
+            || name.endsWith("_HELMET")
+            || name.endsWith("_CHESTPLATE")
+            || name.endsWith("_LEGGINGS")
+            || name.endsWith("_BOOTS")
+            || UNBREAKABLE_ITEMS.contains(type);
     }
 
     public static boolean repairItem(ItemStack item) {
